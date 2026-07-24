@@ -5,6 +5,6 @@ import { COLORS } from '../config/constants.js';
 export const embed = (description: string, color = COLORS.primary) => new EmbedBuilder()
   .setColor(color)
   .setAuthor({ name: 'ATLAS BOT  •  Protection' })
-  .setDescription(`${description}\n\n> ೬  *ATLAS RP — Sécurité, modération et protection.*`)
+  .setDescription(description)
   .setFooter({ text: 'ATLAS RP  •  discord.gg/atlasrpfr' })
   .setTimestamp();
