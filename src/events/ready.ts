@@ -1,1 +1,16 @@
-import { Events } from 'discord.js'; export default {name:Events.ClientReady,once:true,execute(client:any){console.log(`ATLAS BOT connecté : ${client.user.tag}`);}};
+import { ActivityType, Events } from 'discord.js';
+import { registerCommands } from '../handlers/registerCommands.js';
+
+export default {
+  name: Events.ClientReady,
+  once: true,
+  async execute(client: any) {
+    client.user.setPresence({
+      status: 'online',
+      activities: [{ name: 'discord.gg/atlasrpfr', type: ActivityType.Watching }]
+    });
+    console.log(`ATLAS BOT connecté : ${client.user.tag}`);
+    try { await registerCommands(client); }
+    catch (error) { console.error('Échec de l’enregistrement des slash-commandes', error); }
+  }
+};

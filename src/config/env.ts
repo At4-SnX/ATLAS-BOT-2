@@ -9,7 +9,7 @@ const csv = (key: string) => (process.env[key] ?? '').split(',').map(x => x.trim
 
 export const env = {
   token: required('DISCORD_TOKEN'), clientId: required('CLIENT_ID'),
-  logChannelId: process.env.LOG_CHANNEL_ID,
+  logChannelId: process.env.LOG_CHANNEL_ID, guildId: process.env.GUILD_ID,
   badWords: csv('BAD_WORDS'), badWordsShort: csv('BAD_WORDS_SHORT'), phishingWords: csv('PHISHING_WORDS'),
   automodAction: (process.env.AUTOMOD_ACTION ?? 'timeout') as 'warn' | 'timeout',
   automodTimeoutMinutes: Number(process.env.AUTOMOD_TIMEOUT_MINUTES ?? 10),

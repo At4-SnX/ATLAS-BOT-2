@@ -1,2 +1,6 @@
-import { REST, Routes } from 'discord.js'; import { readdir } from 'node:fs/promises'; import { join } from 'node:path'; import { env } from '../config/env.js';
-const commands=[];for(const file of await readdir(join(process.cwd(),'src/commands'))){if(!file.endsWith('.ts'))continue;const c=(await import(`../commands/${file.replace('.ts','.js')}`)).default;commands.push(c.data.toJSON());}const rest=new REST({version:'10'}).setToken(env.token);await rest.put(Routes.applicationCommands(env.clientId),{body:commands});console.log(`${commands.length} commandes enregistrées.`);
+import { Client, GatewayIntentBits } from 'discord.js';
+import { loadCommands } from '../handlers/commandHandler.js';
+import { registerCommands } from '../handlers/registerCommands.js';
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+await loadCommands(client);
+await registerCommands(client);
