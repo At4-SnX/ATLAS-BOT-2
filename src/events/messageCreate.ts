@@ -1,0 +1,1 @@
+import { Events } from 'discord.js'; import { runAutoMod } from '../automod/AutoMod.js'; import { runAntiSpam } from '../automod/AntiSpam.js'; export default {name:Events.MessageCreate,async execute(_client:any,message:any){await Promise.all([runAutoMod(message),runAntiSpam(message)]);}};

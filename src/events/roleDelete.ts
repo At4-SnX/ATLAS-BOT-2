@@ -1,0 +1,1 @@
+import { Events, AuditLogEvent } from 'discord.js'; import { checkNuke } from '../protection/AntiNuke.js'; export default {name:Events.GuildRoleDelete,async execute(_c:any,r:any){await checkNuke(r.guild,AuditLogEvent.RoleDelete);}};

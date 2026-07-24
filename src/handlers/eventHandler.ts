@@ -1,0 +1,2 @@
+import { Client } from 'discord.js'; import { readdir } from 'node:fs/promises'; import { join } from 'node:path';
+export async function loadEvents(client: Client) { for (const file of await readdir(join(process.cwd(), 'dist/events'))) { if (!file.endsWith('.js')) continue; const event = (await import(`../events/${file}`)).default; event.once ? client.once(event.name, (...a: unknown[]) => event.execute(client, ...a)) : client.on(event.name, (...a: unknown[]) => event.execute(client, ...a)); } }

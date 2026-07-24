@@ -1,0 +1,1 @@
+import { Events, AuditLogEvent } from 'discord.js'; import { checkNuke } from '../protection/AntiNuke.js'; export default {name:Events.ChannelDelete,async execute(_c:any,c:any){await checkNuke(c.guild,AuditLogEvent.ChannelDelete);}};
