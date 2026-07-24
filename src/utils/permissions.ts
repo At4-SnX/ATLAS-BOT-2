@@ -16,4 +16,8 @@ export async function canModerate(i: ChatInputCommandInteraction, target: GuildM
   if (target.id === i.guild!.ownerId || target.id === i.user.id || (target.roles.highest.position >= actor.roles.highest.position && i.user.id !== i.guild!.ownerId) || target.roles.highest.position >= me.roles.highest.position) { await i.reply({ embeds: [embed('Hiérarchie de rôles insuffisante.', COLORS.danger)], ephemeral: true }); return false; }
   return true;
 }
+/** Réserve les actions capables d'affecter tout le serveur à son owner ou aux IDs de confiance. */
+export function canManageCritical(i: ChatInputCommandInteraction): boolean {
+  return Boolean(i.guild && (i.user.id === i.guild.ownerId || env.trustedOwnerIds.includes(i.user.id)));
+}
 export const P = PermissionFlagsBits;

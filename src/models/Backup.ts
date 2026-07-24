@@ -1,4 +1,3 @@
-import { Schema, model } from 'mongoose';
-export interface IBackup { guildId: string; createdBy: string; data: Record<string, unknown>; createdAt: Date; }
-const schema = new Schema<IBackup>({ guildId: { type: String, index: true }, createdBy: String, data: Schema.Types.Mixed, createdAt: { type: Date, default: Date.now } });
-export const Backup = model<IBackup>('Backup', schema);
+import { store, type StoredBackup } from '../database/store.js';
+export type IBackup = StoredBackup;
+export const Backup = { async create(backup: Omit<StoredBackup, 'createdAt'>) { return store.mutate(db => { const item = { ...backup, createdAt: new Date().toISOString() }; db.backups.push(item); return item; }); }, async latest(guildId: string) { const db = await store.read(); return db.backups.filter(b => b.guildId === guildId).sort((a,b) => b.createdAt.localeCompare(a.createdAt))[0] ?? null; } };

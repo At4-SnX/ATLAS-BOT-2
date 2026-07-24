@@ -5,7 +5,7 @@ export async function saveGuild(guild: Guild, createdBy: string) {
   await Backup.create({guildId:guild.id,createdBy,data:{roles,channels}});
 }
 export async function loadGuild(guild: Guild) {
-  const backup=await Backup.findOne({guildId:guild.id}).sort({createdAt:-1}).lean(); if(!backup) throw new Error('Aucune sauvegarde trouvée.'); const data=backup.data as any;
+  const backup=await Backup.latest(guild.id); if(!backup) throw new Error('Aucune sauvegarde trouvée.'); const data=backup.data as any;
   const createdCategories=new Map<string,string>();
   for(const c of data.channels.filter((x:any)=>x.type===ChannelType.GuildCategory)){const n=await guild.channels.create({name:c.name,type:ChannelType.GuildCategory,position:c.position});createdCategories.set(c.name,n.id);}
   for(const r of data.roles){if(!guild.roles.cache.some(x=>x.name===r.name)) await guild.roles.create({name:r.name,color:r.color,hoist:r.hoist,mentionable:r.mentionable,permissions:BigInt(r.permissions),reason:'ATLAS restore'});}
